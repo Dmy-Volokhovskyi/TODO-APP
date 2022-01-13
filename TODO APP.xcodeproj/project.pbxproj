@@ -20,6 +20,9 @@
 		7C8FE581278F4836000E7701 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8FE580278F4836000E7701 /* Constants.swift */; };
 		7C8FE583278F5A09000E7701 /* CreateItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8FE582278F5A09000E7701 /* CreateItemViewController.swift */; };
 		7C8FE585278F7ACF000E7701 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8FE584278F7ACF000E7701 /* MainTableViewCell.swift */; };
+		7C8FE58727909E44000E7701 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8FE58627909E42000E7701 /* CategoryTableViewCell.swift */; };
+		7C8FE58927909FBA000E7701 /* CategoryCreatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8FE58827909FBA000E7701 /* CategoryCreatorViewController.swift */; };
+		7C8FE58B2790AE57000E7701 /* ColorPickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8FE58A2790AE56000E7701 /* ColorPickerCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +60,9 @@
 		7C8FE580278F4836000E7701 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		7C8FE582278F5A09000E7701 /* CreateItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateItemViewController.swift; sourceTree = "<group>"; };
 		7C8FE584278F7ACF000E7701 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
+		7C8FE58627909E42000E7701 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
+		7C8FE58827909FBA000E7701 /* CategoryCreatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCreatorViewController.swift; sourceTree = "<group>"; };
+		7C8FE58A2790AE56000E7701 /* ColorPickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +156,7 @@
 			children = (
 				7C8FE57E278F4820000E7701 /* MainViewController.swift */,
 				7C8FE582278F5A09000E7701 /* CreateItemViewController.swift */,
+				7C8FE58827909FBA000E7701 /* CategoryCreatorViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -158,7 +165,9 @@
 			isa = PBXGroup;
 			children = (
 				7C8FE584278F7ACF000E7701 /* MainTableViewCell.swift */,
+				7C8FE58627909E42000E7701 /* CategoryTableViewCell.swift */,
 				7C8FE551278F46E8000E7701 /* TODO_APP.xcdatamodeld */,
+				7C8FE58A2790AE56000E7701 /* ColorPickerCollectionViewCell.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -299,8 +308,11 @@
 				7C8FE549278F46E8000E7701 /* AppDelegate.swift in Sources */,
 				7C8FE585278F7ACF000E7701 /* MainTableViewCell.swift in Sources */,
 				7C8FE54B278F46E8000E7701 /* SceneDelegate.swift in Sources */,
+				7C8FE58927909FBA000E7701 /* CategoryCreatorViewController.swift in Sources */,
+				7C8FE58B2790AE57000E7701 /* ColorPickerCollectionViewCell.swift in Sources */,
 				7C8FE553278F46E8000E7701 /* TODO_APP.xcdatamodeld in Sources */,
 				7C8FE57F278F4820000E7701 /* MainViewController.swift in Sources */,
+				7C8FE58727909E44000E7701 /* CategoryTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

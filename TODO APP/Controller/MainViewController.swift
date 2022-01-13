@@ -15,7 +15,11 @@ class MainViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+      loadTODOItems()
+        
+         loadTODOItems()
+        loadTODOItems()
+        print(itemArray)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -25,25 +29,24 @@ class MainViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        
-        return itemArray.count
-    }
+
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        itemArray.count
+       return itemArray.count
     }
 
-    /*
+ 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: K.cellReuseId, for: indexPath) as! MainTableViewCell
+        cell.done.text = String(itemArray[indexPath.row].done)
+        cell.name.text = itemArray[indexPath.row].title
+        cell.date.text = "Hello~! "
         // Configure the cell...
 
         return cell
     }
-    */
+
 
     /*
     // Override to support conditional editing of the table view.
@@ -90,4 +93,18 @@ class MainViewController: UITableViewController {
     }
     */
 
+    
+    func loadTODOItems() {
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        do{
+           itemArray =  try context.fetch(request)
+            print("Here is data Array \(itemArray)")
+        }catch {
+            print ( "Error fetching data \(error)" )
+        }
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        loadTODOItems()
+        tableView.reloadData()
+    }
 }

@@ -1,18 +1,17 @@
 //
-//  MainTableViewCell.swift
+//  CategoryTableViewCell.swift
 //  TODO APP
 //
-//  Created by Дмитро Волоховський on 12/01/2022.
+//  Created by Дмитро Волоховський on 13/01/2022.
 //
 
 import UIKit
 
-class MainTableViewCell: UITableViewCell {
-    @IBOutlet weak var date : UILabel!
-    @IBOutlet weak var name : UILabel!
-    @IBOutlet weak var done : UILabel!
-    @IBOutlet weak var category : UIImageView!
+class CategoryTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var categoryTitle : UILabel!
+    @IBOutlet weak var emojiLabel : UILabel!
+    @IBOutlet weak var colorImage : UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
