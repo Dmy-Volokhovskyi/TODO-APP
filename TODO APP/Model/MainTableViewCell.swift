@@ -14,6 +14,7 @@ class MainTableViewCell: UITableViewCell, UIContextMenuInteractionDelegate {
     @IBOutlet weak var done : UILabel!
     @IBOutlet weak var category : UIImageView!
     @IBOutlet weak var functionBtn : UIButton!
+    
     var cellIndex : Int = 1
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var itemArray = [Item]()
@@ -22,41 +23,37 @@ class MainTableViewCell: UITableViewCell, UIContextMenuInteractionDelegate {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        // Loading Items
         loadTODOItems()
+        //Setting up Context menu
         let interaction = UIContextMenuInteraction(delegate: self)
         functionBtn.addInteraction(interaction)
     }
-
+   // Connecting button responsible for menue triggering
     @IBAction func funcBtnPressed (_ sender: Any) {
-     
     }
-    
-    
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+    //MARK: Setting up Context menu and 3 buttons
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction,
       configurationForMenuAtLocation location: CGPoint)
       -> UIContextMenuConfiguration? {
-
+       
       let favorite = UIAction(title: "Set Important",
-        image: UIImage(systemName: "flame.circle")) { _ in
+          image: UIImage(systemName: "flame.circle")) { [self] _ in
           self.done.text = "🔥"
+          itemArray[self.cellIndex].isImportant = true
+          itemArray[self.cellIndex].done = false
       }
       let done = UIAction(title: "Set Done",
             image: UIImage(systemName: "checkmark.circle")) { _ in
               self.done.text = "✓"
+          self.itemArray[self.cellIndex].isImportant = false
+          self.itemArray[self.cellIndex].done = true
           }
-
+ // setting Up the deletion functionality
       let delete = UIAction(title: "Delete",
         image: UIImage(systemName: "trash.fill"),
         attributes: [.destructive]) { action in
-          
-              let alert = UIAlertController(title: "Are u sure?", message: " ", preferredStyle: UIAlertController.Style.alert)
+              let alert = UIAlertController(title: "Are you sure?", message: " ", preferredStyle: UIAlertController.Style.alert)
               // add the actions (buttons)
               alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive, handler: { action in
                   self.context.delete(self.itemArray[self.cellIndex])
@@ -66,19 +63,14 @@ class MainTableViewCell: UITableViewCell, UIContextMenuInteractionDelegate {
 
               }))
           alert.addAction(UIAlertAction(title: "Cancel ", style: UIAlertAction.Style.default, handler: nil))
-              // show the alert
+              // show the alert using parent VC because cell cant present an allert
           self.parentVC.present(alert, animated: true, completion: nil)
-          
-        
-         
-        
-          
        }
-
        return UIContextMenuConfiguration(identifier: nil,
          previewProvider: nil) { _ in
          UIMenu(title: "", children: [favorite, done, delete])
        }
+          // MARK: Functions to work with data 
     }
     func saveItems() {
         do {

@@ -9,4 +9,5 @@ import UIKit
 
 class ColorPickerCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var colorImage : UIImageView!
+
 }

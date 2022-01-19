@@ -13,6 +13,8 @@ class CategoryCreatorViewController: UIViewController,UICollectionViewDelegate, 
     @IBOutlet weak var colorSelectionPicker: UICollectionView!
     @IBOutlet weak var imageSelectionPicker : UICollectionView!
     @IBOutlet weak var nameTextField : UITextField!
+    @IBOutlet weak var addBTn : UIButton!
+    @IBOutlet weak var cancelBTn : UIButton!
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var categoryArray = [Category]()
@@ -25,27 +27,41 @@ class CategoryCreatorViewController: UIViewController,UICollectionViewDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //setting delegates
         colorSelectionPicker.dataSource = self
         colorSelectionPicker.delegate = self
         imageSelectionPicker.delegate = self
         imageSelectionPicker.dataSource = self
-        print(K.colorArray.count)
-        
-        // Do any additional setup after loading the view.
+        nameTextField.delegate = self
+        //setting design
+        addBTn.layer.cornerRadius = 9
+        cancelBTn.layer.cornerRadius = 9
     }
-
+// Function responsible for new category creation.
     @IBAction func addButtonPressed(_ sender: Any) {
-       let newCategory = Category(context: context)
-        if nameTextField.text != ""{
+        
+        let letters = CharacterSet.letters
+        let phrase = nameTextField.text ?? " "
+        let range = phrase.rangeOfCharacter(from: letters)
+        if range != nil{
+            let newCategory = Category(context: context)
             newCategory.name = nameTextField.text
             newCategory.color = String(colorCellIndex)
             newCategory.image = String(imageCellIndex)
             newCategory.imageIndex = Int16(imageCellIndex)
             newCategory.colorIndex = Int16(colorCellIndex)
+            let alert = UIAlertController(title: "Saved", message: "", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                self.saveItems()
+                self.navigationController?.popViewController(animated: true)
+            }))
+            present(alert, animated: true, completion: nil)
+            saveItems()
+        } else {
+            let alert = UIAlertController(title: "Wrong data", message: "Category name must contain at least 1 letter", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
         }
-        print(newCategory)
-        saveItems()
-        
     }
     
     //MARK: - Functions Responcible for Data
@@ -57,6 +73,7 @@ class CategoryCreatorViewController: UIViewController,UICollectionViewDelegate, 
             print("Error saving Context \(error)")
         }
     }
+    
     func loadICategorytems() {
         let request : NSFetchRequest<Category> = Category.fetchRequest()
         do{
@@ -83,7 +100,6 @@ class CategoryCreatorViewController: UIViewController,UICollectionViewDelegate, 
         cell.colorImage.backgroundColor = K.colorArray[indexPath.row]
             // Setting up an array of sells to ease deselection 
         cellCollection.append(cell)
-     
             return cell}
         //Configure cell for images
         else {
@@ -97,7 +113,6 @@ class CategoryCreatorViewController: UIViewController,UICollectionViewDelegate, 
     
      func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
          if collectionView == colorSelectionPicker{
-             
         let cell = collectionView.cellForItem(at: indexPath)
              //wiping out previous selection
          for cell in cellCollection {
@@ -121,11 +136,23 @@ class CategoryCreatorViewController: UIViewController,UICollectionViewDelegate, 
              }
              //setting the border to Visually select an image.
              cell?.layer.borderWidth = 4
-             cell?.layer.borderColor = CGColor(red: 0, green: 5, blue: 5, alpha: 1)
+             cell?.layer.borderColor = CGColor(red: 0, green: 5, blue: 1, alpha: 1)
              cell?.isSelected = true
              // preparing data for transition.
              imageCellIndex = indexPath.row
          }
+    }
+    
+    @IBAction func backBtnPressed(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
+}
+
+
+extension CategoryCreatorViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder() // dismiss keyboard
+        return true
     }
 }
 

@@ -12,9 +12,11 @@ class CategoryTableViewCell: UITableViewCell {
     @IBOutlet weak var categoryTitle : UILabel!
     @IBOutlet weak var categoryImage : UIImageView!
     @IBOutlet weak var colorImage : UIImageView!
+    
+    var cellIndex : Int = 1 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

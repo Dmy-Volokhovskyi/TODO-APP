@@ -25,17 +25,14 @@ class MainViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
-
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
        return itemArray.count
     }
-
- 
+      // Filling with cells
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: K.cellReuseId, for: indexPath) as! MainTableViewCell
+        // Configure the cell...
         cell.done.text = String(itemArray[indexPath.row].done)
         cell.name.text = itemArray[indexPath.row].title
         cell.date.text = itemArray[indexPath.row].date
@@ -43,17 +40,28 @@ class MainViewController: UITableViewController {
         cell.backgroundColor = K.colorArray[Int(itemArray[indexPath.row].colorIndex)]
         if itemArray[indexPath.row].done {
             cell.done.text = "✓"
+        }else if itemArray[indexPath.row].isImportant {
+            cell.done.text = "🔥"
         }else {
-            cell.done.text = " "
+            cell.done.text = ""
         }
-        // Configure the cell...
+        if Int(itemArray[indexPath.row].imageIndex) == 0{
+            cell.category.image = K.imageArray[Int(itemArray[indexPath.row].imageIndex)]?.withTintColor(.black, renderingMode: .alwaysOriginal)
+        }
         cell.cellIndex = indexPath.row
         cell.parentVC = self
         cell.layer.cornerRadius = 15
         
         return cell
     }
-    
+    // making sure we update the view every time we see it
+    override func viewDidAppear(_ animated: Bool) {
+        loadTODOItems()
+        tableView.reloadData()
+        chekForData()
+        
+    }
+    // MARK: functions to work with data
     func loadTODOItems() {
         let request : NSFetchRequest<Item> = Item.fetchRequest()
         do{
@@ -61,12 +69,6 @@ class MainViewController: UITableViewController {
         }catch {
             print ( "Error fetching data \(error)" )
         }
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        loadTODOItems()
-        tableView.reloadData()
-        chekForData()
-        
     }
     func saveItems() {
         do {
@@ -76,21 +78,15 @@ class MainViewController: UITableViewController {
             print("Error saving Context \(error)")
         }
     }
-    func deleteItems (Index: Int?){
-        context.delete(itemArray[Index ?? 0])
-        saveItems()
-        itemArray.remove(at: Index!)
-        tableView.reloadData()
-    }
     
+    // Function to refresh data after ParentVC deletes items From cell
     @objc func refresh() {
-        
-        
         loadTODOItems()
         self.tableView.reloadData() // a refresh the tableView.
         chekForData()
 
     }
+    // Function to show an aller if Items array is empty.
     func chekForData(){
         if itemArray == []{
             let alert = UIAlertController(title: "You seem to have no TODO Items ", message: "", preferredStyle: UIAlertController.Style.alert)

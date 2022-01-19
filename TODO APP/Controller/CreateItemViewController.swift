@@ -9,13 +9,12 @@ import UIKit
 import CoreData
 
 class CreateItemViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
-   
-    
 
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var textField : UITextField!
     @IBOutlet weak var categorySelectionTable: UITableView!
     @IBOutlet weak var datePicker: UIDatePicker!
+    @IBOutlet weak var cancelBtn : UIButton!
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var categoryArray = [Category](){
@@ -30,19 +29,30 @@ class CreateItemViewController: UIViewController, UITableViewDelegate, UITableVi
     var categoryImageIndex : Int16?
     
     
+    
     override func viewDidLoad() {
+       
+        super.viewDidLoad()
+        textField.delegate = self
         categorySelectionTable.dataSource = self
         categorySelectionTable.delegate = self
-        super.viewDidLoad()
+        //load items
         loadITODOtems()
         loadICategorytems()
-        // Do any additional setup after loading the view.
+        // set design
+        addButton.layer.cornerRadius = 8
+        cancelBtn.layer.cornerRadius = 8
     }
     
  //MARK: -  Add new Item 
     @IBAction func addButtonPressed(_ sender: Any) {
-        if categoryTitle != " "{
-            let alert = UIAlertController(title: "Saved", message: " ", preferredStyle: UIAlertController.Style.alert)
+        let letters = CharacterSet.letters
+
+        let phrase = textField.text ?? " "
+        let range = phrase.rangeOfCharacter(from: letters)
+        
+        if categoryTitle != " ", range != nil{
+            let alert = UIAlertController(title: "Saved", message: "", preferredStyle: UIAlertController.Style.alert)
             // add the actions (buttons)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.destructive, handler: { action in
                 self.navigationController?.popToRootViewController(animated: true)
@@ -58,6 +68,8 @@ class CreateItemViewController: UIViewController, UITableViewDelegate, UITableVi
                 newItem.colorIndex = self.categoryColorIndex!
                 newItem.imageIndex = self.categoryImageIndex!
                 newItem.date = date
+                newItem.done = false
+                newItem.isImportant = false
                 self.itemArray.append(newItem)
                 self.saveItems()
 
@@ -80,7 +92,7 @@ class CreateItemViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     
-    
+    //MARK: - Functions to work with data.
     func saveItems() {
         do {
           try context.save()
@@ -105,45 +117,47 @@ class CreateItemViewController: UIViewController, UITableViewDelegate, UITableVi
             print ( "Error fetching data \(error)" )
         }
     }
-    
+    //MARK: TableView fucntions
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         categoryArray.count
     }
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        categoryColorIndex = categoryArray[indexPath.row].colorIndex
+        categoryImageIndex = categoryArray[indexPath.row].imageIndex
+        categoryTitle = categoryArray[indexPath.row].name!
+        tableView.layer.borderWidth = 0
+   }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: K.categoryCell, for: indexPath) as! CategoryTableViewCell
+        // Configure the cell...
         let color = Int(categoryArray[indexPath.row].colorIndex)
-        print (Int(color))
         let image = Int(categoryArray[indexPath.row].imageIndex)
         cell.categoryTitle.text = categoryArray[indexPath.row].name ?? " Hello"
         cell.categoryImage.image = K.imageArray[image]
         cell.colorImage.backgroundColor = K.colorArray[color]
+        
+        //set design
+        cell.colorImage.layer.cornerRadius = 8
         cell.layer.cornerRadius = 8
-        // Configure the cell...
-
         return cell
     }
+    // making sure we update data
     override func viewDidAppear(_ animated: Bool) {
         loadICategorytems()
         loadITODOtems()
     }
-    
-     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-         
-         categoryColorIndex = categoryArray[indexPath.row].colorIndex
-         categoryImageIndex = categoryArray[indexPath.row].imageIndex
-         categoryTitle = categoryArray[indexPath.row].name!
-         tableView.layer.borderWidth = 0
-        //context.delete(categoryArray[indexPath.row])
-        //saveItems()
-         //categoryArray.remove(at: indexPath.row)
-        //tableView.reloadData()
-        
-    }
-
+    // using cancel btn
     @IBAction func backToMainVC(_ sender: Any) {
         saveItems()
         self.navigationController?.popToRootViewController(animated: true)
+    }
+}
+
+
+extension CreateItemViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder() // dismiss keyboard
+        return true
     }
 }
