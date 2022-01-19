@@ -23,6 +23,7 @@
 		7C8FE58727909E44000E7701 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8FE58627909E42000E7701 /* CategoryTableViewCell.swift */; };
 		7C8FE58927909FBA000E7701 /* CategoryCreatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8FE58827909FBA000E7701 /* CategoryCreatorViewController.swift */; };
 		7C8FE58B2790AE57000E7701 /* ColorPickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8FE58A2790AE56000E7701 /* ColorPickerCollectionViewCell.swift */; };
+		7C8FE58D2796DEFD000E7701 /* ImagePickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8FE58C2796DEFC000E7701 /* ImagePickerCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		7C8FE58627909E42000E7701 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		7C8FE58827909FBA000E7701 /* CategoryCreatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCreatorViewController.swift; sourceTree = "<group>"; };
 		7C8FE58A2790AE56000E7701 /* ColorPickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerCollectionViewCell.swift; sourceTree = "<group>"; };
+		7C8FE58C2796DEFC000E7701 /* ImagePickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,8 +168,9 @@
 			children = (
 				7C8FE584278F7ACF000E7701 /* MainTableViewCell.swift */,
 				7C8FE58627909E42000E7701 /* CategoryTableViewCell.swift */,
-				7C8FE551278F46E8000E7701 /* TODO_APP.xcdatamodeld */,
 				7C8FE58A2790AE56000E7701 /* ColorPickerCollectionViewCell.swift */,
+				7C8FE58C2796DEFC000E7701 /* ImagePickerCollectionViewCell.swift */,
+				7C8FE551278F46E8000E7701 /* TODO_APP.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				7C8FE553278F46E8000E7701 /* TODO_APP.xcdatamodeld in Sources */,
 				7C8FE57F278F4820000E7701 /* MainViewController.swift in Sources */,
 				7C8FE58727909E44000E7701 /* CategoryTableViewCell.swift in Sources */,
+				7C8FE58D2796DEFD000E7701 /* ImagePickerCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

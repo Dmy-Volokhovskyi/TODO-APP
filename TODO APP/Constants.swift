@@ -24,5 +24,26 @@ struct K{
         UIColor.systemCyan
     ]
     static let colorPickerCell = "colorPickerCell"
+    static let imagePickerCell = "imagePickerCell"
     static let checkmark = "CheckmarkImage"
+    static let heartSquare = "heart.square"
+    static let pencilSquare = "square.and.pencil"
+    static let boltCar = "bolt.car"
+    static let phone = "phone"
+    static let cart = "cart"
+    static let pet = "petIcon"
+    static let plane = "airplane"
+    static let dinner = "dinnerIcon"
+    static let laptop = "laptopcomputer"
+    
+    static let imageArray = [
+        UIImage(systemName: "laptopcomputer")?.withTintColor(.black, renderingMode: .automatic),
+        UIImage(systemName: "airplane")?.withTintColor(.black, renderingMode: .automatic),
+    UIImage(systemName: "cart")?.withTintColor(.black, renderingMode: .automatic),
+    UIImage(systemName: "bolt.car")?.withTintColor(.black, renderingMode: .automatic),
+    UIImage(systemName: "heart.square")?.withTintColor(.black, renderingMode: .automatic),
+    UIImage(systemName: "square.and.pencil")?.withTintColor(.black, renderingMode: .automatic),
+    UIImage(systemName: "phone")?.withTintColor(.black, renderingMode: .automatic)]
+    static let segueTomain = "backToMain"
+    static let segueCreate = "creation"
 }

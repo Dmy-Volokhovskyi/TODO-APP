@@ -10,7 +10,7 @@ import UIKit
 class CategoryTableViewCell: UITableViewCell {
 
     @IBOutlet weak var categoryTitle : UILabel!
-    @IBOutlet weak var emojiLabel : UILabel!
+    @IBOutlet weak var categoryImage : UIImageView!
     @IBOutlet weak var colorImage : UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()

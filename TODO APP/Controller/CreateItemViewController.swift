@@ -12,8 +12,8 @@ class CreateItemViewController: UIViewController, UITableViewDelegate, UITableVi
    
     
 
+    @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var textField : UITextField!
-    
     @IBOutlet weak var categorySelectionTable: UITableView!
     @IBOutlet weak var datePicker: UIDatePicker!
     
@@ -25,30 +25,62 @@ class CreateItemViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     var itemArray = [Item]()
+    var categoryTitle = " "
+    var categoryColorIndex : Int16?
+    var categoryImageIndex : Int16?
+    
     
     override func viewDidLoad() {
         categorySelectionTable.dataSource = self
         categorySelectionTable.delegate = self
         super.viewDidLoad()
         loadITODOtems()
-        print(datePicker.date)
         loadICategorytems()
-        
-    
         // Do any additional setup after loading the view.
     }
     
  //MARK: -  Add new Item 
     @IBAction func addButtonPressed(_ sender: Any) {
-        let newItem = Item(context: context)
-        newItem.date = "14.10.2022"
-        newItem.category = "Job"
-        newItem.title = "Fire Bob"
-        newItem.done = false
-        itemArray.append(newItem)
-        saveItems()
+        if categoryTitle != " "{
+            let alert = UIAlertController(title: "Saved", message: " ", preferredStyle: UIAlertController.Style.alert)
+            // add the actions (buttons)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.destructive, handler: { action in
+                self.navigationController?.popToRootViewController(animated: true)
+                self.textField.layer.borderWidth = 1
+                self.textField.layer.borderColor = .init(red: 0, green: 1, blue: 0, alpha: 1)
+                self.categorySelectionTable.layer.borderWidth = 1
+                self.categorySelectionTable.layer.borderColor = .init(red: 0, green: 1, blue: 0, alpha: 1)
+                let newItem = Item(context: self.context)
+                let date = self.datePicker.date.formatted(date: .long, time: .omitted)
+                newItem.category = self.categoryTitle
+                newItem.title = self.textField.text
+                newItem.done = false
+                newItem.colorIndex = self.categoryColorIndex!
+                newItem.imageIndex = self.categoryImageIndex!
+                newItem.date = date
+                self.itemArray.append(newItem)
+                self.saveItems()
+
+            }))
+            // show the alert
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            // create the alert
+                    let alert = UIAlertController(title: "Can't save data", message: "The Field is empty! ", preferredStyle: UIAlertController.Style.alert)
+            textField.layer.borderWidth = 1
+            textField.layer.borderColor = .init(red: 1, green: 0, blue: 0, alpha: 1)
+            categorySelectionTable.layer.borderWidth = 1
+            categorySelectionTable.layer.borderColor = .init(red: 1, green: 0, blue: 0, alpha: 1)
+                    // add the actions (buttons)
+                    alert.addAction(UIAlertAction(title: "Fill the field ", style: UIAlertAction.Style.default, handler: nil))
+                    // show the alert
+                    self.present(alert, animated: true, completion: nil)
+        }
         
     }
+    
+    
+    
     func saveItems() {
         do {
           try context.save()
@@ -80,9 +112,13 @@ class CreateItemViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: K.categoryCell, for: indexPath) as! CategoryTableViewCell
+        let color = Int(categoryArray[indexPath.row].colorIndex)
+        print (Int(color))
+        let image = Int(categoryArray[indexPath.row].imageIndex)
         cell.categoryTitle.text = categoryArray[indexPath.row].name ?? " Hello"
-        cell.colorImage.backgroundColor = .green
-        cell.emojiLabel.text =  "Smile"
+        cell.categoryImage.image = K.imageArray[image]
+        cell.colorImage.backgroundColor = K.colorArray[color]
+        cell.layer.cornerRadius = 8
         // Configure the cell...
 
         return cell
@@ -90,5 +126,24 @@ class CreateItemViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidAppear(_ animated: Bool) {
         loadICategorytems()
         loadITODOtems()
+    }
+    
+     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+         
+         categoryColorIndex = categoryArray[indexPath.row].colorIndex
+         categoryImageIndex = categoryArray[indexPath.row].imageIndex
+         categoryTitle = categoryArray[indexPath.row].name!
+         tableView.layer.borderWidth = 0
+        //context.delete(categoryArray[indexPath.row])
+        //saveItems()
+         //categoryArray.remove(at: indexPath.row)
+        //tableView.reloadData()
+        
+    }
+
+    @IBAction func backToMainVC(_ sender: Any) {
+        saveItems()
+        self.navigationController?.popToRootViewController(animated: true)
     }
 }

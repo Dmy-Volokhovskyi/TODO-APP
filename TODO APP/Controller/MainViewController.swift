@@ -11,20 +11,17 @@ import CoreData
 class MainViewController: UITableViewController {
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    var itemArray = [Item]()
-
+    var itemArray = [Item](){
+        didSet{
+            
+            tableView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-      loadTODOItems()
-        
-         loadTODOItems()
         loadTODOItems()
-        print(itemArray)
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refresh), name: NSNotification.Name(rawValue: "newDataNotif"), object: nil)
     }
 
     // MARK: - Table view data source
@@ -41,64 +38,26 @@ class MainViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: K.cellReuseId, for: indexPath) as! MainTableViewCell
         cell.done.text = String(itemArray[indexPath.row].done)
         cell.name.text = itemArray[indexPath.row].title
-        cell.date.text = "Hello~! "
+        cell.date.text = itemArray[indexPath.row].date
+        cell.category.image = K.imageArray[Int(itemArray[indexPath.row].imageIndex)]
+        cell.backgroundColor = K.colorArray[Int(itemArray[indexPath.row].colorIndex)]
+        if itemArray[indexPath.row].done {
+            cell.done.text = "✓"
+        }else {
+            cell.done.text = " "
+        }
         // Configure the cell...
-
+        cell.cellIndex = indexPath.row
+        cell.parentVC = self
+        cell.layer.cornerRadius = 15
+        
         return cell
     }
-
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
     
     func loadTODOItems() {
         let request : NSFetchRequest<Item> = Item.fetchRequest()
         do{
            itemArray =  try context.fetch(request)
-            print("Here is data Array \(itemArray)")
         }catch {
             print ( "Error fetching data \(error)" )
         }
@@ -106,5 +65,42 @@ class MainViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         loadTODOItems()
         tableView.reloadData()
+        chekForData()
+        
+    }
+    func saveItems() {
+        do {
+          try context.save()
+            print(itemArray)
+        }catch{
+            print("Error saving Context \(error)")
+        }
+    }
+    func deleteItems (Index: Int?){
+        context.delete(itemArray[Index ?? 0])
+        saveItems()
+        itemArray.remove(at: Index!)
+        tableView.reloadData()
+    }
+    
+    @objc func refresh() {
+        
+        
+        loadTODOItems()
+        self.tableView.reloadData() // a refresh the tableView.
+        chekForData()
+
+    }
+    func chekForData(){
+        if itemArray == []{
+            let alert = UIAlertController(title: "You seem to have no TODO Items ", message: "", preferredStyle: UIAlertController.Style.alert)
+            // add the actions (buttons)
+            alert.addAction(UIAlertAction(title: "Create new TODO Item", style: UIAlertAction.Style.destructive, handler: { action in
+                self.performSegue(withIdentifier: K.segueCreate, sender: MainViewController.self)
+
+            }))
+            // show the alert
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }
