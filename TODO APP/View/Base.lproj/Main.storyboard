@@ -49,12 +49,12 @@
                                                 <constraint firstItem="Tsy-xH-B9D" firstAttribute="height" secondItem="IMF-96-hOa" secondAttribute="height" id="yJo-bc-HIZ"/>
                                             </constraints>
                                         </stackView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="here was written a tasasdjsndf" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I66-m5-ZDV">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="here was written a smth" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I66-m5-ZDV">
                                             <rect key="frame" x="8" y="0.0" width="335" height="83"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="83" id="lQC-uB-uec"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="25"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -161,15 +161,27 @@
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Gjf-Dw-K0P">
                                                             <rect key="frame" x="271" y="29" width="60" height="57"/>
                                                         </imageView>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dl1-NI-yN9">
+                                                            <rect key="frame" x="0.0" y="0.0" width="412" height="89"/>
+                                                            <state key="normal" title="Button"/>
+                                                            <buttonConfiguration key="configuration" style="plain"/>
+                                                            <connections>
+                                                                <action selector="button:" destination="qPO-Fj-FAE" eventType="touchUpInside" id="1Yv-jr-Omk"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstAttribute="bottom" secondItem="Gjf-Dw-K0P" secondAttribute="bottom" constant="3" id="4Ne-ll-so7"/>
                                                         <constraint firstItem="eXi-2K-rEt" firstAttribute="top" secondItem="nqq-CX-2Bn" secondAttribute="top" constant="3" id="9zE-rY-1PA"/>
+                                                        <constraint firstAttribute="bottom" secondItem="dl1-NI-yN9" secondAttribute="bottom" id="AUw-et-OT4"/>
+                                                        <constraint firstAttribute="trailing" secondItem="dl1-NI-yN9" secondAttribute="trailing" id="Dna-Qg-vxd"/>
                                                         <constraint firstAttribute="bottom" secondItem="eXi-2K-rEt" secondAttribute="bottom" constant="3" id="Dp0-5I-63S"/>
                                                         <constraint firstAttribute="bottom" secondItem="E6y-rw-tZx" secondAttribute="bottom" constant="3" id="JGr-ko-mau"/>
+                                                        <constraint firstItem="dl1-NI-yN9" firstAttribute="top" secondItem="nqq-CX-2Bn" secondAttribute="top" id="Jyz-HR-Obq"/>
                                                         <constraint firstItem="E6y-rw-tZx" firstAttribute="width" secondItem="Gjf-Dw-K0P" secondAttribute="width" id="RlZ-J4-nYH"/>
                                                         <constraint firstItem="E6y-rw-tZx" firstAttribute="top" secondItem="nqq-CX-2Bn" secondAttribute="top" constant="29" id="TVv-H6-os2"/>
                                                         <constraint firstItem="Gjf-Dw-K0P" firstAttribute="top" secondItem="nqq-CX-2Bn" secondAttribute="top" constant="29" id="UWq-Cf-9GJ"/>
+                                                        <constraint firstItem="dl1-NI-yN9" firstAttribute="leading" secondItem="nqq-CX-2Bn" secondAttribute="leading" id="fRK-XI-Eab"/>
                                                         <constraint firstItem="E6y-rw-tZx" firstAttribute="leading" secondItem="Gjf-Dw-K0P" secondAttribute="trailing" constant="21" id="glm-LW-7EG"/>
                                                         <constraint firstItem="eXi-2K-rEt" firstAttribute="leading" secondItem="nqq-CX-2Bn" secondAttribute="leading" constant="3" id="izh-ZA-TSn"/>
                                                         <constraint firstItem="Gjf-Dw-K0P" firstAttribute="leading" secondItem="eXi-2K-rEt" secondAttribute="trailing" constant="16" id="pdk-CR-z34"/>
@@ -180,6 +192,7 @@
                                                     <outlet property="categoryImage" destination="E6y-rw-tZx" id="fiZ-1O-rDx"/>
                                                     <outlet property="categoryTitle" destination="eXi-2K-rEt" id="16C-os-54D"/>
                                                     <outlet property="colorImage" destination="Gjf-Dw-K0P" id="8ni-Ry-HR0"/>
+                                                    <outlet property="functionBtn" destination="dl1-NI-yN9" id="BlI-Pz-hwm"/>
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>

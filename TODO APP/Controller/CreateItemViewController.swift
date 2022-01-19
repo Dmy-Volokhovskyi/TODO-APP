@@ -36,6 +36,7 @@ class CreateItemViewController: UIViewController, UITableViewDelegate, UITableVi
         textField.delegate = self
         categorySelectionTable.dataSource = self
         categorySelectionTable.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refresh), name: NSNotification.Name(rawValue: "newDataCateg"), object: nil)
         //load items
         loadITODOtems()
         loadICategorytems()
@@ -96,7 +97,6 @@ class CreateItemViewController: UIViewController, UITableViewDelegate, UITableVi
     func saveItems() {
         do {
           try context.save()
-            print(itemArray)
         }catch{
             print("Error saving Context \(error)")
         }
@@ -136,10 +136,13 @@ class CreateItemViewController: UIViewController, UITableViewDelegate, UITableVi
         cell.categoryTitle.text = categoryArray[indexPath.row].name ?? " Hello"
         cell.categoryImage.image = K.imageArray[image]
         cell.colorImage.backgroundColor = K.colorArray[color]
+        cell.parentVC = self
+        cell.cellIndex = indexPath.row
         
         //set design
         cell.colorImage.layer.cornerRadius = 8
         cell.layer.cornerRadius = 8
+        
         return cell
     }
     // making sure we update data
@@ -152,8 +155,11 @@ class CreateItemViewController: UIViewController, UITableViewDelegate, UITableVi
         saveItems()
         self.navigationController?.popToRootViewController(animated: true)
     }
+    @objc func refresh() {
+        loadICategorytems()
+        categorySelectionTable.reloadData()
 }
-
+}
 
 extension CreateItemViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

@@ -73,7 +73,6 @@ class MainViewController: UITableViewController {
     func saveItems() {
         do {
           try context.save()
-            print(itemArray)
         }catch{
             print("Error saving Context \(error)")
         }

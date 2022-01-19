@@ -68,7 +68,6 @@ class CategoryCreatorViewController: UIViewController,UICollectionViewDelegate, 
     func saveItems() {
         do {
           try context.save()
-            print(categoryArray)
         }catch{
             print("Error saving Context \(error)")
         }
